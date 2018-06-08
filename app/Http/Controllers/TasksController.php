@@ -15,6 +15,16 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     
+    /*public function index()
+    {
+     $tasks = Task::all();
+
+        return view('tasks.index', [
+            'tasks' => $tasks,
+        ]);
+    }*/
+
     public function index()
     {
      $tasks = Task::all();
@@ -23,7 +33,8 @@ class TasksController extends Controller
             'tasks' => $tasks,
         ]);
     }
-
+ 
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +55,7 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    /* public function store(Request $request)
     {
         $this->validate($request, [
             'status' => 'required|max:10',
@@ -55,6 +66,21 @@ class TasksController extends Controller
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
+
+        return redirect('/');
+    }*/
+    
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'content' => 'required|max:191',
+            'status'=>'required|max:10',
+        ]);
+
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+            'status'=> $request->status,
+        ]);
 
         return redirect('/');
     }
