@@ -16,24 +16,68 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
      
-    /*public function index()
-    {
-     $tasks = Task::all();
+    // public function index()
+    // {
+    //  $tasks = Task::all();
 
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
-    }*/
+    //     return view('tasks.index', [
+    //         'tasks' => $tasks,
+    //     ]);
+    // }
 
     public function index()
     {
-     $tasks = Task::all();
-
+        if (\Auth::check()) {
+             $user = \Auth::user();
+              $tasks = $user->tasks()->orderBy('id')->paginate(10);
+            
+            
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
+        }else {
+            return view('welcome');
+        }
+
     }
- 
+    
+
+
+    //  public function index()
+    // {
+    //     $data = [];
+    //     if (\Auth::check()) {
+    //         $user = \Auth::user();
+    //         $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+
+    //         $data = [
+    //             'user' => $user,
+    //             'tasks' => $tasks,
+    //         ];
+    //         $data += $this->counts($user);
+    //         return view('tasks.index', $data);
+    //     }else {
+    //         return view('welcome');
+    //     }
+    // }
+    
+    //  public function index()
+    // {
+    //     $data = [];
+    //     if (\Auth::check()) {
+    //         $user = \Auth::user();
+    //         $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+
+    //         $data = [
+    //             'user' => $user,
+    //             'tasks' => $tasks,
+    //         ];
+    //         $data += $this->counts($user);
+    //         return view('tasks.index', $data);
+    //     }else {
+    //         return view('welcome');
+    //     }
+    // }
     
     /**
      * Show the form for creating a new resource.
